@@ -3,6 +3,7 @@ package com.dev.fellipe.agendamento_notificacao_api.business;
 import com.dev.fellipe.agendamento_notificacao_api.business.mapper.IAgendamentoMapper;
 import com.dev.fellipe.agendamento_notificacao_api.controller.dto.in.AgendamentoRecord;
 import com.dev.fellipe.agendamento_notificacao_api.controller.dto.out.AgendamentoRecordOut;
+import com.dev.fellipe.agendamento_notificacao_api.infra.entities.Agendamento;
 import com.dev.fellipe.agendamento_notificacao_api.infra.exception.NotFoundException;
 import com.dev.fellipe.agendamento_notificacao_api.infra.repositories.AgendamentoRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,15 @@ public class AgendamentoService {
     public AgendamentoRecordOut buscarAgendamentoPorId(Long id) {
         return agendamentoMapper.paraOut(repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Id não encontrado")));
+    }
+
+    public void cancelarAgendamento(Long id) {
+        Agendamento agendamento = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Id não encontrado"));
+
+        var agendamentoModicado = agendamentoMapper.paraEntityCancelamento(agendamento);
+
+        repository.save(agendamentoModicado);
     }
 }
 
