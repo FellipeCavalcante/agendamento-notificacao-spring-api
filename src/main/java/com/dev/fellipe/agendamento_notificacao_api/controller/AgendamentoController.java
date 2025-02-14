@@ -5,10 +5,7 @@ import com.dev.fellipe.agendamento_notificacao_api.controller.dto.in.Agendamento
 import com.dev.fellipe.agendamento_notificacao_api.controller.dto.out.AgendamentoRecordOut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,5 +20,13 @@ public class AgendamentoController {
         var agendamentoGravado = agendamentoService.gravarAgendamento(agendamentoRecord);
 
         return ResponseEntity.ok(agendamentoGravado);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AgendamentoRecordOut> buscarAgendamentoPorId(@PathVariable("id") Long id) {
+
+        var agendamento = agendamentoService.buscarAgendamentoPorId(id);
+
+        return ResponseEntity.ok(agendamento);
     }
 }
